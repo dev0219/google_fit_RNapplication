@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, {useState, createRef,useEffect} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
-
+  const [mounted, setMounted] = useState(false);
   const passwordInputRef = createRef();
 
   const handleSubmitPress = () => {
@@ -43,7 +43,7 @@ const LoginScreen = ({navigation}) => {
     }
     formBody = formBody.join('&');
 
-    fetch('http://192.168.1.2/fitbackend/api/authentication.php', {
+    fetch('http://innosens.com.my/fit/api/authentication.php', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -74,7 +74,13 @@ const LoginScreen = ({navigation}) => {
         console.error(error);
       });
   };
-
+  useEffect(() => {
+    // Update the document title using the browser API
+    if (!mounted) {
+      AsyncStorage.clear();   
+      setMounted(true);
+    }
+  }, []);
   return (
     <View style={styles.mainBody}>
       <Loader loading={loading} />
@@ -89,9 +95,9 @@ const LoginScreen = ({navigation}) => {
           <KeyboardAvoidingView enabled>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../Image/aboutreact.png')}
+                source={require('../Image/google_fit.png')}
                 style={{
-                  width: '50%',
+                  width: '90%',
                   height: 100,
                   resizeMode: 'contain',
                   margin: 30,
@@ -151,6 +157,7 @@ const LoginScreen = ({navigation}) => {
               New Here ? Register
             </Text>
             <Text
+            
               style={styles.registerTextStyle}
               onPress={() => navigation.navigate('ForgotPassword')}>
               Forgot Password

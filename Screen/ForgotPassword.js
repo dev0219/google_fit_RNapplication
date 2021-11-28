@@ -40,7 +40,7 @@ const ForgotPassword = ({navigation}) => {
       formBody.push(encodedKey + '=' + encodedValue);
     }
     formBody = formBody.join('&');
-    fetch('http://192.168.1.2/fitbackend/api/forgot_password.php', {
+    fetch('http://innosens.com.my/fit/api/forgot_password.php', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -84,7 +84,7 @@ const ForgotPassword = ({navigation}) => {
       formBody.push(encodedKey + '=' + encodedValue);
     }
     formBody = formBody.join('&');
-    fetch('http://192.168.1.2/fitbackend/api/forgot_password.php', {
+    fetch('http://innosens.com.my/fit/api/forgot_password.php', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -120,7 +120,7 @@ const ForgotPassword = ({navigation}) => {
       return;
     }
     setLoading(true);
-    let dataToSend = {password: userPassword};
+    let dataToSend = {password: userPassword,email:userEmail};
     let formBody = [];
     for (let key in dataToSend) {
       let encodedKey = encodeURIComponent(key);
@@ -128,7 +128,7 @@ const ForgotPassword = ({navigation}) => {
       formBody.push(encodedKey + '=' + encodedValue);
     }
     formBody = formBody.join('&');
-    fetch('http://192.168.1.2/fitbackend/api/forgot_password.php', {
+    fetch('http://innosens.com.my/fit/api/forgot_password.php', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -173,7 +173,7 @@ const ForgotPassword = ({navigation}) => {
               <KeyboardAvoidingView enabled>
                 <View style={{alignItems: 'center'}}>
                   <Image
-                    source={require('../Image/aboutreact.png')}
+                    source={require('../Image/google_fit.png')}
                     style={{
                       width: '50%',
                       height: 100,
@@ -206,7 +206,12 @@ const ForgotPassword = ({navigation}) => {
                   activeOpacity={0.5}
                   onPress={handleSubmitEmail}>
                   <Text style={styles.buttonTextStyle}>SEND EMAIL</Text>
-                </TouchableOpacity>               
+                </TouchableOpacity>     
+                <Text
+                  style={styles.registerTextStyle}
+                  onPress={() => navigation.navigate('LoginScreen')}>
+                  Already have an account ? Login now
+                </Text>          
               </KeyboardAvoidingView>
             </View>
           </ScrollView>
@@ -227,7 +232,7 @@ const ForgotPassword = ({navigation}) => {
               <KeyboardAvoidingView enabled>
                 <View style={{alignItems: 'center'}}>
                   <Image
-                    source={require('../Image/aboutreact.png')}
+                    source={require('../Image/google_fit.png')}
                     style={{
                       width: '50%',
                       height: 100,
@@ -256,6 +261,11 @@ const ForgotPassword = ({navigation}) => {
                   onPress={handleSubmitVerify}>
                   <Text style={styles.buttonTextStyle}>SEND VERIFY CODE</Text>
                 </TouchableOpacity>
+                <Text
+                  style={styles.registerTextStyle}
+                  onPress={() => navigation.navigate('LoginScreen')}>
+                  Already have an account ? Login now
+                </Text>
               </KeyboardAvoidingView>
             </View>
           </ScrollView>
@@ -276,7 +286,7 @@ const ForgotPassword = ({navigation}) => {
               <KeyboardAvoidingView enabled>
                 <View style={{alignItems: 'center'}}>
                   <Image
-                    source={require('../Image/aboutreact.png')}
+                    source={require('../Image/google_fit.png')}
                     style={{
                       width: '50%',
                       height: 100,
@@ -306,6 +316,11 @@ const ForgotPassword = ({navigation}) => {
                   onPress={handleSubmitPassword}>
                   <Text style={styles.buttonTextStyle}>RESET PASSWORD</Text>
                 </TouchableOpacity>
+                <Text
+                  style={styles.registerTextStyle}
+                  onPress={() => navigation.navigate('LoginScreen')}>
+                  Already have an account ? Login now
+                </Text>
               </KeyboardAvoidingView>
             </View>
           </ScrollView>

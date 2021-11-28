@@ -7,7 +7,7 @@ import moment from "moment";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Card, Title, Button } from 'react-native-paper';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
 
   // Date
   var start = new Date();
@@ -133,7 +133,6 @@ const HomeScreen = () => {
     })
       .catch((err) => { console.log(err) });
   }
-
   const GetDistance = async () => {
     setLoader(true)
     const res = await GoogleFit.getDailyDistanceSamples(getActivitySamples)
@@ -150,85 +149,141 @@ const HomeScreen = () => {
 
 
   return (
-    <SafeAreaView>
-      <View style={styles.screen}>
-        <Text style={{ color: 'black', fontSize: 30 }}>Google Fit Data</Text>
+ 
+      <View>
+        <View style={styles.navbar}>
+          {/* <Icon name="angle-left" size={20} color='white' /> */}
+            <Text
+              style={styles.HomeScreenheaderstyle}
+              onPress={() => navigation.navigate('SettingsScreen')}>
+              Profile
+            </Text>
+            <Text
+              style={styles.Profilenheaderstyle}>
+              Google Fit Data
+            </Text>
+            <Text
+            style={styles.LogOutheaderstyle}
+            onPress={() => navigation.navigate('Auth')}
+              >
+            Log Out
+            </Text>
+          </View>
+          <View style={styles.screen}>
+        
+            <Text style={{ color: 'black', fontSize: 30 ,marginBottom:20}}></Text>
 
-        <View style={styles.CardBackground}>
-          {
-            getStepDate != null || getStepDate != undefined ?
-              <Card style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                <Card.Content>
-                  <Title style={styles.lFont}>{getStepDate}</Title>
-                </Card.Content>
-              </Card>
-              :
-              null
-          }
-        </View>
+            <View style={styles.CardBackground}>
+              {
+                getStepDate != null || getStepDate != undefined ?
+                  <Card style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                    <Card.Content>
+                      <Title style={styles.lFont}>{getStepDate}</Title>
+                    </Card.Content>
+                  </Card>
+                  :
+                  null
+              }
+            </View>
 
-        <View style={[styles.CardBackground, { marginTop: 20 }]}>
-          {
-            getCalories != null || getCalories != undefined ?
-              <Card style={styles.CardBoarder}>
-                <Card.Content>
-                  <Title style={styles.lFont}>Calories</Title>
-                  <Title>{getCalories.toFixed(2)}</Title>
-                  {/* <Title>{getCalories}</Title> */}
-                  <Title style={styles.mFont}>Cal</Title>
-                </Card.Content>
-              </Card>
-              :
-              null
-          }
-          {
-            getCalories != null || getCalories != undefined ?
-              <Card style={styles.CardBoarder}>
-                <Card.Content>
-                  <Title style={styles.lFont}>Distance</Title>
-                  <Title>{getDistance.toFixed(2)}</Title>
-                  <Title style={styles.mFont}>Km</Title>
-                </Card.Content>
-              </Card>
-              :
-              null
-          }
-        </View>
+            <View style={[styles.CardBackground, { marginTop: 20 }]}>
+              {
+                getCalories != null || getCalories != undefined ?
+                  <Card style={styles.CardBoarder}>
+                    <Card.Content>
+                      <Title style={styles.lFont}>Calories</Title>
+                      <Title>{getCalories.toFixed(2)}</Title>
+                      {/* <Title>{getCalories}</Title> */}
+                      <Title style={styles.mFont}>Cal</Title>
+                    </Card.Content>
+                  </Card>
+                  :
+                  null
+              }
+              {
+                getCalories != null || getCalories != undefined ?
+                  <Card style={styles.CardBoarder}>
+                    <Card.Content>
+                      <Title style={styles.lFont}>Distance</Title>
+                      <Title>{getDistance.toFixed(2)}</Title>
+                      <Title style={styles.mFont}>Km</Title>
+                    </Card.Content>
+                  </Card>
+                  :
+                  null
+              }
+            </View>
 
-        <View style={[styles.CardBackground, { marginTop: 40 }]}>
-          {
-            getStepValue != null || getStepValue != undefined ?
-              <Card style={styles.CardBoarder}>
-                <Card.Content>
-                  <Title style={styles.lFont}>STEP</Title>
-                  <Title>{getStepValue.toFixed()}</Title>
-                  <Title style={styles.mFont}>Steps</Title>
-                </Card.Content>
-              </Card>
-              :
-              null
-          }
-        </View>
+            <View style={[styles.CardBackground, { marginTop: 40 }]}>
+              {
+                getStepValue != null || getStepValue != undefined ?
+                  <Card style={styles.CardBoarder}>
+                    <Card.Content>
+                      <Title style={styles.lFont}>STEP</Title>
+                      <Title>{getStepValue.toFixed()}</Title>
+                      <Title style={styles.mFont}>Steps</Title>
+                    </Card.Content>
+                  </Card>
+                  :
+                  null
+              }
+            </View>
 
-        <Button mode="contained" onPress={() => Refresh()}>
-          Refresh
-        </Button>
-
-
-        <Spinner visible={getLoader} />
+            <Button mode="contained" style={{marginTop:5}} onPress={() => Refresh()}>
+              Refresh
+            </Button>
+            <Spinner visible={getLoader} />
+          </View>
       </View>
-    </SafeAreaView>
+      
+   
   );
 };
 
 const styles = StyleSheet.create({
+  buttonTextStyle: {
+    color: '#FFFFFF',
+    paddingVertical: 10,
+    fontSize: 16,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   screen: {
+  
     width: '100%',
     height: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     backgroundColor: '#cdcdcd'
+  },
+  navbar:{
+    backgroundColor: "#307ecc",
+    height:70,
+    flexDirection:"row",
+    justifyContent:"space-between",
+    
+  },
+  Profilenheaderstyle:{
+    fontSize:23,
+    color:'white',
+    fontWeight:"700",
+    marginTop:12,
+    marginLeft:5
+  },
+  HomeScreenheaderstyle:{
+    fontSize:17,
+    color:'white',
+    fontWeight:"700",
+    marginTop:30,
+    marginLeft:15
+  },
+  LogOutheaderstyle:{
+    fontSize:17,
+    color:'white',
+    fontWeight:"700",
+    marginTop:30,
+    marginRight:15,
   },
   CardBoarder: {
     borderRadius: 10,

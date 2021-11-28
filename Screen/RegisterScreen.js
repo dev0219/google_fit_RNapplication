@@ -28,7 +28,7 @@ const RegisterScreen = ({navigation}) => {
   const [errortext, setErrortext] = useState('');
   const [weight, setUserWeight] = useState('');
   const [height, setUserHeight] = useState('');
-  const [BMI, setUserBMI] = useState('');
+  // const [BMI, setUserBMI] = useState('');
   const [phonevalue, setUserphoneValue] = useState("");
   const [
     isRegistraionSuccess,
@@ -41,10 +41,12 @@ const RegisterScreen = ({navigation}) => {
   const passwordInputRef = createRef();
   const heightInputRef = createRef();
   const weightInputRef = createRef();
-  const bmiInputRef = createRef();
+  // const bmiInputRef = createRef();
   const stepInputRef = createRef();
   const phoneInput  = createRef(null);
   const handleSubmitButton = () => {
+
+
     setErrortext('');
     if (!userName) {
       alert('Please fill Name');
@@ -86,10 +88,10 @@ const RegisterScreen = ({navigation}) => {
       alert('Please fill Step');
       return;
     }
-    if (!BMI) {
-      alert('Please fill BMI');
-      return;
-    }
+    // if (!BMI) {
+    //   alert('Please fill BMI');
+    //   return;
+    // }
     //Show Loader
     setLoading(true);
     var dataToSend = {
@@ -101,13 +103,12 @@ const RegisterScreen = ({navigation}) => {
       height:height,
       weight:weight,
       step:userStep,
-      BMI:BMI,
+      // BMI:BMI,
       gender:checked,
       // address: userAddress,
       password: userPassword,
     };
 
-    console.log("data post", dataToSend);
     var formBody = [];
     for (var key in dataToSend) {
       var encodedKey = encodeURIComponent(key);
@@ -116,7 +117,7 @@ const RegisterScreen = ({navigation}) => {
     }
     formBody = formBody.join('&');  
    
-    fetch('http://192.168.1.2/fitbackend/api/register.php', {
+    fetch('http://innosens.com.my/fit/api/register.php', {
       method: 'POST',
       body: formBody,
       headers: {
@@ -126,25 +127,25 @@ const RegisterScreen = ({navigation}) => {
       },
     })
     .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          setIsRegistraionSuccess(true);
-          console.log(
-            'Registration Successful. Please Login to proceed'
-          );
-        } else {
-          setErrortext(responseJson.msg);
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
-      });
+    .then((responseJson) => {
+      //Hide Loader
+      setLoading(false);
+      console.log(responseJson);
+      // If server response message same as Data Matched
+      if (responseJson.status === 'success') {
+        setIsRegistraionSuccess(true);
+        console.log(
+          'Registration Successful. Please Login to proceed'
+        );
+      } else {
+        setErrortext(responseJson.msg);
+      }
+    })
+    .catch((error) => {
+      //Hide Loader
+      setLoading(false);
+      console.error(error);
+    });
   };
   if (isRegistraionSuccess) {
     return (
@@ -155,7 +156,7 @@ const RegisterScreen = ({navigation}) => {
           justifyContent: 'center',
         }}>
         <Image
-          source={require('../Image/aboutreact.png')}
+          source={require('../Image/google_fit.png')}
           style={{
             height: 100,
             resizeMode: 'contain',
@@ -175,7 +176,7 @@ const RegisterScreen = ({navigation}) => {
     );
   }
   return (
-    <View style={{flex: 1, backgroundColor: '#fffff'}}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <Loader loading={loading} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -185,7 +186,7 @@ const RegisterScreen = ({navigation}) => {
         }}>
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../Image/user4.png')}
+            source={{uri: 'http://innosens.com.my/fit/users/dist/img/user8-128x128.jpg'}}
             style={{
               width: 100,
               height: 100,
@@ -202,7 +203,7 @@ const RegisterScreen = ({navigation}) => {
               onChangeText={(UserName) => setUserName(UserName)}
               underlineColorAndroid="#f000"
               placeholder="Name"
-              placeholderTextColor="#7DE24E"
+              placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               returnKeyType="next"
               onSubmitEditing={() =>
@@ -217,7 +218,7 @@ const RegisterScreen = ({navigation}) => {
               onChangeText={(UserEmail) => setUserEmail(UserEmail)}
               underlineColorAndroid="#f000"
               placeholder="Email"
-              placeholderTextColor="#7DE24E"
+              placeholderTextColor="#8b9cb5"
               keyboardType="email-address"
               ref={emailInputRef}
               returnKeyType="next"
@@ -236,7 +237,7 @@ const RegisterScreen = ({navigation}) => {
               }
               underlineColorAndroid="#f000"
               placeholder="Password"
-              placeholderTextColor="#7DE24E"
+              placeholderTextColor="#8b9cb5"
               ref={passwordInputRef}
               returnKeyType="next"
               secureTextEntry={true}
@@ -247,17 +248,20 @@ const RegisterScreen = ({navigation}) => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
-            <RadioButton
-              value="male"
-              status={ checked === 'male' ? 'checked' : 'unchecked' }
-              onPress={() => setChecked('male')}
-            />
-            <RadioButton
-              value="female"
-              status={ checked === 'female' ? 'checked' : 'unchecked' }
-              onPress={() => setChecked('female')}
-            />
+          <View style={styles.genderSectionSytle}>    
+        
+                         
+              <RadioButton
+                value="male"
+                status={ checked === 'male' ? 'checked' : 'unchecked' }
+                onPress={() => setChecked('male')}
+              /><Text  style={{marginTop:10,color:"#8b9cb5"}}>Male</Text>
+              <RadioButton
+                value="female"
+                status={ checked === 'female' ? 'checked' : 'unchecked' }
+                onPress={() => setChecked('female')}
+              /><Text style={{marginTop:10,color:"#8b9cb5"}}>Female</Text>
+           
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
@@ -265,7 +269,7 @@ const RegisterScreen = ({navigation}) => {
               onChangeText={(UserAge) => setUserAge(UserAge)}
               underlineColorAndroid="#f000"
               placeholder="Age"
-              placeholderTextColor="#7DE24E"
+              placeholderTextColor="#8b9cb5"
               keyboardType="numeric"
               ref={ageInputRef}
               returnKeyType="next"
@@ -284,7 +288,7 @@ const RegisterScreen = ({navigation}) => {
               }
               underlineColorAndroid="#f000"
               placeholder="Height"
-              placeholderTextColor="#7DE24E"
+              placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={heightInputRef}
               returnKeyType="next"
@@ -303,7 +307,7 @@ const RegisterScreen = ({navigation}) => {
               }
               underlineColorAndroid="#f000"
               placeholder="Weight"
-              placeholderTextColor="#7DE24E"
+              placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={weightInputRef}
               returnKeyType="next"
@@ -314,7 +318,7 @@ const RegisterScreen = ({navigation}) => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          {/* <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={(UserBMI) =>
@@ -332,8 +336,8 @@ const RegisterScreen = ({navigation}) => {
               }
               blurOnSubmit={false}
             />
-          </View>
-          <View style={styles.SectionStyle}>
+          </View> */}
+          <View style={styles.phoneSection}>
             <PhoneInput
              style={styles.inputStyle}
               ref={phoneInput}
@@ -351,6 +355,7 @@ const RegisterScreen = ({navigation}) => {
               autoFocus
             />
           </View>
+        
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -360,7 +365,7 @@ const RegisterScreen = ({navigation}) => {
               underlineColorAndroid="#f000"
               placeholder="Contact No"
               value={phonevalue}
-              placeholderTextColor="#7DE24E"
+              placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={addressInputRef}
               returnKeyType="next"
@@ -379,7 +384,7 @@ const RegisterScreen = ({navigation}) => {
               }
               underlineColorAndroid="#f000"
               placeholder="Target Step"
-              placeholderTextColor="#7DE24E"
+              placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={stepInputRef}
               returnKeyType="next"
@@ -418,7 +423,25 @@ const styles = StyleSheet.create({
     marginRight: 35,
     margin: 10,
   },
-  
+  genderSectionSytle:{
+    flexDirection: 'row',
+    height: 45,
+    marginLeft: 15,
+    
+    right:0,
+    margin: 10,
+    width:"93%",
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: '#7DE24E',
+  },
+  phoneSection: {
+    flexDirection: 'row',
+    height: 45,
+    marginLeft: 35,
+    marginRight: 35,
+    margin: 10,
+  },
   buttonStyle: {
     backgroundColor: '#adc93e',
     borderWidth: 0,
@@ -451,7 +474,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     flex:1,
     height:45,
-    color: '#7DE24E',
+    color: 'black',
     marginLeft:-20,
     marginRight:-20,
     paddingLeft: 10,

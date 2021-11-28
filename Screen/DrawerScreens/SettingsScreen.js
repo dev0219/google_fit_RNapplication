@@ -2,13 +2,13 @@ import React,{useState,useEffect} from 'react';
 import {View, Text,Image,  TouchableOpacity, SafeAreaView,StyleSheet,ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { cos } from 'react-native-reanimated';
-const SettingsScreen = ({props}) => {
+const SettingsScreen = ({navigation}) => {
   const [userinfo, setUserinfo] = useState(null);
   const [mounted, setMounted] = useState(false);
-  const logout = async () => {
-    AsyncStorage.clear();
-    props.navigation.replace('Auth');
-  }
+  // const logout = async () => {
+  //   AsyncStorage.clear();
+  //   navigate.replace('LoginScreen');
+  // }
   const _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('userinfo');
@@ -35,9 +35,26 @@ const SettingsScreen = ({props}) => {
           alignContent: 'center',
         }}>
         <View style={styles.container}>
-     
+          <View style={styles.navbar}>
+            <Text
+              style={styles.HomeScreenheaderstyle}
+              onPress={() => navigation.navigate('HomeScreen')}>
+              Fit Data
+            </Text>
+            <Text
+              style={styles.Profilenheaderstyle}>
+              Profile
+            </Text>
+            <Text
+              style={styles.LogOutheaderstyle}
+              onPress={() => navigation.navigate('Auth')}
+              >
+             Log Out
+            </Text>
+            
+          </View>
           <View style={styles.header}></View>
-          <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+          <Image style={styles.avatar} source={{uri: 'http://innosens.com.my/fit/users/dist/img/user8-128x128.jpg'}}/>
         
           <View style={styles.body}>
             <View style={styles.bodyContent}>              
@@ -82,12 +99,6 @@ const SettingsScreen = ({props}) => {
                 <Text style={styles.property}>Contact No</Text>   
                 <Text  style={styles.contents}>{userinfo?.phone}</Text> 
               </View>              
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={() => logout()}>
-                <Text style={styles.buttonTextStyle}>Log out</Text>
-              </TouchableOpacity>
             </View>          
           </View>
          
@@ -100,7 +111,36 @@ export default SettingsScreen;
 const styles = StyleSheet.create({
   header:{
     backgroundColor: "#213d65",
-    height:100,
+    height:50,
+    borderBottomLeftRadius:27,
+    borderBottomRightRadius:27,
+  },
+  navbar:{
+    backgroundColor: "#307ecc",
+    height:70,
+    flexDirection:"row",
+    justifyContent:"space-between"
+  },
+  Profilenheaderstyle:{
+    fontSize:23,
+    color:'white',
+    fontWeight:"700",
+    marginTop:13,
+    marginLeft:5
+  },
+  HomeScreenheaderstyle:{
+    fontSize:17,
+    color:'white',
+    fontWeight:"700",
+    marginTop:30,
+    marginLeft:15
+  },
+  LogOutheaderstyle:{
+    fontSize:17,
+    color:'white',
+    fontWeight:"700",
+    marginTop:30,
+    marginRight:15,
   },
   buttonTextStyle: {
     color: '#FFFFFF',
@@ -140,15 +180,15 @@ const styles = StyleSheet.create({
     marginRight:10,
   },
   avatar: {
-    width: 130,
-    height: 130,
+    width: 80,
+    height: 80,
     borderRadius: 63,
     borderWidth: 4,
     borderColor: "white",
     marginBottom:-50,
     alignSelf:'center',
     position: 'relative',
-    marginTop:-70
+    marginTop:-45
   },
   name:{
     fontSize:22,
